@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    {% block extra_css %}{% endblock %}
+    <title>{{ page_id | capitalize }} - Temperature Monitor</title>
+</head>
+<body>
+    <div class="sidebar">
+        <img src="{{ url_for('static', filename='images/ATLAS-Logowhite-big.png') }}" alt="ATLAS Experiment" class="logo">
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('views.dashboard') }}" class="menu-item {% if page_id == 'dashboard' %}active{% endif %}" id="dashboard">Dashboard</a></li>
+                <li><a href="{{ url_for('views.variables') }}" class="menu-item {% if page_id == 'variables' %}active{% endif %}" id="variables">Variables</a></li>
+                <li><a href="{{ url_for('views.alerts') }}" class="menu-item {% if page_id == 'alerts' %}active{% endif %}" id="alertas">Alertas</a></li>
+                <li><a href="{{ url_for('views.reports') }}" class="menu-item {% if page_id == 'reports' %}active{% endif %}" id="reportes">Reportes</a></li>
+                <li><a href="{{ url_for('views.settings') }}" class="menu-item {% if page_id == 'settings' %}active{% endif %}" id="opciones">Opciones</a></li>
+            </ul>
+        </nav>
+
+        <div class="user-menu">
+            <button id="user-button">
+                <img src="{{ url_for('static', filename='images/user-244.svg') }}" alt="Usuario" class="user-icon">
+            </button>
+            <div id="user-dropdown" class="dropdown-content">
+                <a href="#">Ver cuenta</a>
+                <a href="#">Cerrar sesión</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="topbar">
+        <span class="page-title" id="page-title">{{ page_id | capitalize }}</span> <!-- Dynamic title -->
+    </div>
+
+    <div class="content">
+        <div id="dynamic-content">
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/base.js') }}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

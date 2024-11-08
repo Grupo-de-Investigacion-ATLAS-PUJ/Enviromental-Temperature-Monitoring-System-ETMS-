@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+    <!-- Performance Graph -->
+    <div id="performance-graph"></div>
+    <br>
+
+    <!-- Trend Graph -->
+    <div id="trend-graph"></div>
+
+    <!-- Load Plotly.js to render the graphs -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    
+    <script type="text/javascript">
+        // Function to update performance graph
+        function updatePerformanceGraph() {
+            fetch('/api/performance_data')
+                .then(response => response.json())
+                .then(data => {
+                    const parsedData = JSON.parse(data);
+                    Plotly.react('performance-graph', parsedData.data, parsedData.layout);
+                })
+                .catch(error => console.error('Error updating performance graph:', error));
+        }
+
+        // Function to update trend graph
+        function updateTrendGraph() {
+            fetch('/api/trend_data')
+                .then(response => response.json())
+                .then(data => {
+                    const parsedData = JSON.parse(data);
+                    Plotly.react('trend-graph', parsedData.data, parsedData.layout);
+                })
+                .catch(error => console.error('Error updating trend graph:', error));
+        }
+
+        // Update graphs every 5 seconds
+        setInterval(updatePerformanceGraph, 5000);
+        setInterval(updateTrendGraph, 5000);
+
+        // Initial load
+        updatePerformanceGraph();
+        updateTrendGraph();
+    </script>
+{% endblock %}
